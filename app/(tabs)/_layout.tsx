@@ -1,35 +1,120 @@
-import { Tabs } from 'expo-router';
+  
+// import Drawer supprimé, on utilise @react-navigation/drawer
 import React from 'react';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import CustomDrawerContent from '@/components/CustomDrawerContent';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-export default function TabLayout() {
+// Ce composant gère la navigation principale avec un menu latéral (drawer) adapté au mobile
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+const Drawer = createDrawerNavigator();
+
+export default function DrawerLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
+    <Drawer.Navigator
+      drawerContent={props => <CustomDrawerContent {...props} />}
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        drawerActiveTintColor: Colors[colorScheme ?? 'light'].primary,
+        drawerInactiveTintColor: Colors[colorScheme ?? 'light'].icon,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
+        drawerStyle: {
+          backgroundColor: Colors[colorScheme ?? 'light'].background,
+          width: 260,
+        },
+        drawerItemStyle: {
+          borderRadius: 8,
+        },
+        drawerLabelStyle: {
+          marginLeft: -16,
+        },
+      }}
+    >
+      <Drawer.Screen
         name="index"
+        component={require('./index').default}
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Tableau de Bord',
         }}
       />
-      <Tabs.Screen
-        name="explore"
+      <Drawer.Screen
+        name="sites"
+        component={require('../sites').default}
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Mes sites',
         }}
       />
-    </Tabs>
+      <Drawer.Screen
+        name="reports"
+        component={require('../reports').default}
+        options={{
+          title: 'Rapports de sécurité',
+        }}
+      />
+      <Drawer.Screen
+        name="demandes"
+        component={require('../demandes').default}
+        options={{
+          title: 'Demandes de service',
+        }}
+      />
+      <Drawer.Screen
+        name="schedule"
+        component={require('../schedule').default}
+        options={{
+          title: 'Horaire de sécurité',
+        }}
+      />
+          <Drawer.Screen
+        name="account"
+  component={require('./account').default}
+        options={{
+          title: 'Paramètre Compte',
+        }}
+      />
+      <Drawer.Screen
+        name="aide"
+        component={require('../aide').default}
+        options={{
+          title: 'Aide & support',
+        }}
+      />
+      <Drawer.Screen
+        name="gestionP"
+        component={require('../gestionP').default}
+        options={{
+          title: 'Gestion du Personnel',
+        }}
+      />
+      <Drawer.Screen
+        name="creerDemande"
+        component={require('../creerDemande').default}
+        options={{
+          title: 'Créer une Demande',
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="contactSupport"
+        component={require('../contactSupport').default}
+        options={{
+          title: 'Contacter le Support',
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="contactsUrgence"
+        component={require('../contactsUrgence').default}
+        options={{
+          title: 'Contacts d\'Urgence',
+          headerShown: false,
+        }}
+      />
+
+      {/* Ajoutez ici d'autres écrans selon le menu */}
+    </Drawer.Navigator>
   );
 }
