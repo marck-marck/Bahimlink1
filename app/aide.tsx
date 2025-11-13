@@ -1,32 +1,39 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput, Linking, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  index: undefined;
+  contactSupport: undefined;
+  creerDemande: undefined;
+  contactsUrgence: undefined;
+};
 import { Colors } from '@/constants/theme';
 
 export default function AideScreen() {
   const [searchText, setSearchText] = useState('');
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const quickActions = [
     { 
       title: 'Contacter le Support', 
       icon: 'mail-outline', 
       color: '#EA580C',
-      action: () => navigation.navigate('contactSupport' as never)
+      action: () => navigation.navigate('contactSupport')
     },
     { 
       title: 'Contacts d\'Urgence', 
       icon: 'warning-outline', 
       color: '#EF4444',
-      action: () => navigation.navigate('contactsUrgence' as never)
+      action: () => navigation.navigate('contactsUrgence')
     },
     { 
       title: 'Demande de Service', 
       icon: 'add-circle-outline', 
       color: Colors.light.primary,
-      action: () => navigation.navigate('creerDemande' as never)
+      action: () => navigation.navigate('creerDemande')
     },
   ];
 

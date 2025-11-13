@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput, Alert, SafeAreaView, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 // Configuration pour masquer le header natif
@@ -9,9 +9,13 @@ export const options = {
   headerShown: false,
 };
 
+type RootStackParamList = {
+  index: undefined;
+};
+
 export default function CreerDemandeScreen() {
   const [activeTab, setActiveTab] = useState('service');
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   // États pour Service Supplémentaire
   const [serviceSite, setServiceSite] = useState('');
@@ -20,8 +24,10 @@ export default function CreerDemandeScreen() {
   const [dateDebut, setDateDebut] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [dureeNecessaire, setDureeNecessaire] = useState('');
-  const [showDureeDropdown, setShowDureeDropdown] = useState(false);
+  const [durationNumber, setDurationNumber] = useState('1');
+  const [durationUnit, setDurationUnit] = useState('jour(s)');
+  const [showDurationNumberDropdown, setShowDurationNumberDropdown] = useState(false);
+  const [showDurationUnitDropdown, setShowDurationUnitDropdown] = useState(false);
   const [exigencesSpeciales, setExigencesSpeciales] = useState('');
   const [showSiteDropdown, setShowSiteDropdown] = useState(false);
   const [showPrioriteDropdown, setShowPrioriteDropdown] = useState(false);
@@ -224,32 +230,69 @@ export default function CreerDemandeScreen() {
         </View>
         <View style={styles.inputHalf}>
           <Text style={styles.label}>Durée Nécessaire</Text>
-          <TouchableOpacity 
-            style={styles.dropdown}
-            onPress={() => setShowDureeDropdown(!showDureeDropdown)}
-          >
-            <Text style={[styles.dropdownText, dureeNecessaire && styles.selectedText]}>
-              {dureeNecessaire || 'Select the duration'}
-            
-            </Text>
-            <Ionicons name="chevron-down" size={20} color="#6C757D" />
-          </TouchableOpacity>
-          {showDureeDropdown && (
-            <View style={styles.dropdownMenu}>
-              {dureeOptions.map((duree) => (
-                <TouchableOpacity
-                  key={duree}
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setDureeNecessaire(duree);
-                    setShowDureeDropdown(false);
-                  }}
-                >
-                  <Text style={styles.dropdownItemText}>{duree}</Text>
-                </TouchableOpacity>
-              ))}
+          <View style={styles.durationContainer}>
+            <View style={styles.durationField}>
+              <TouchableOpacity 
+                style={styles.durationDropdown}
+                onPress={() => setShowDurationNumberDropdown(!showDurationNumberDropdown)}
+              >
+                <Text style={[styles.dropdownText, durationNumber && styles.selectedText]}>
+                  {durationNumber}
+                </Text>
+                <Ionicons name="chevron-down" size={16} color="#6C757D" />
+              </TouchableOpacity>
+              {showDurationNumberDropdown && (
+                <View style={styles.numberDropdownMenu}>
+                  <ScrollView 
+                    style={styles.numberScrollView}
+                    nestedScrollEnabled={true}
+                    showsVerticalScrollIndicator={true}
+                  >
+                    {Array.from({length: 31}, (_, i) => i + 1).map((number) => (
+                      <TouchableOpacity
+                        key={number}
+                        style={styles.dropdownItem}
+                        onPress={() => {
+                          setDurationNumber(number.toString());
+                          setShowDurationNumberDropdown(false);
+                        }}
+                      >
+                        <Text style={styles.dropdownItemText}>{number}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
             </View>
-          )}
+            
+            <View style={styles.durationField}>
+              <TouchableOpacity 
+                style={styles.durationDropdown}
+                onPress={() => setShowDurationUnitDropdown(!showDurationUnitDropdown)}
+              >
+                <Text style={[styles.dropdownText, durationUnit && styles.selectedText]}>
+                  {durationUnit}
+                </Text>
+                <Ionicons name="chevron-down" size={16} color="#6C757D" />
+              </TouchableOpacity>
+              {showDurationUnitDropdown && (
+                <View style={styles.dropdownMenu}>
+                  {['jour(s)', 'semaine(s)', 'mois', 'année(s)'].map((unit, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={styles.dropdownItem}
+                      onPress={() => {
+                        setDurationUnit(unit);
+                        setShowDurationUnitDropdown(false);
+                      }}
+                    >
+                      <Text style={styles.dropdownItemText}>{unit}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+            </View>
+          </View>
         </View>
       </View>
 
@@ -971,5 +1014,45 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#2563eb',
     lineHeight: 16,
+  },
+  durationContainer: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  durationField: {
+    flex: 1,
+    position: 'relative',
+  },
+  durationDropdown: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: '#2563eb',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    backgroundColor: '#fff',
+  },
+  numberDropdownMenu: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#2563eb',
+    borderRadius: 8,
+    marginTop: 4,
+    maxHeight: 200,
+    zIndex: 1000,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  numberScrollView: {
+    flex: 1,
   },
 });

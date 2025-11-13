@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  index: undefined;
+};
 import { Colors } from '@/constants/theme';
 import DemandeModal from '@/components/DemandeModal';
 
 export default function DemandesScreen() {
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   
 
   const stats = [

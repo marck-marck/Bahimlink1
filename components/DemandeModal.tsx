@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
+import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState } from 'react';
+import { Alert, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface DemandeModalProps {
   visible: boolean;
@@ -91,7 +91,7 @@ export default function DemandeModal({ visible, onClose }: DemandeModalProps) {
             <Ionicons name="close" size={24} color="#1E1E1E" />
           </TouchableOpacity>
           <Text style={styles.title}>Soumettre une Demande</Text>
-          <View style={styles.placeholder} />
+          <View style={styles.placeholderView} />
         </View>
 
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -171,7 +171,11 @@ export default function DemandeModal({ visible, onClose }: DemandeModalProps) {
                   </TouchableOpacity>
                   {showDropdown.visible && showDropdown.type === 'number' && (
                     <View style={styles.numberDropdownMenu}>
-                      <ScrollView style={styles.numberScrollView}>
+                      <ScrollView 
+                        style={styles.numberScrollView}
+                        nestedScrollEnabled={true}
+                        showsVerticalScrollIndicator={true}
+                      >
                         {Array.from({length: 31}, (_, i) => i + 1).map((number) => (
                           <TouchableOpacity
                             key={number}
@@ -272,10 +276,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1E1E1E',
   },
-  placeholder: {
-    width: 200,
-    color: '#6C757D',
-  
+  placeholderView: {
+    width: 32,
   },
   scrollView: {
     flex: 1,
@@ -302,7 +304,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#0a4fdaff',
+    borderColor: '#2563eb',
     paddingHorizontal: 16,
     paddingVertical: 16,
     minHeight: 48,
@@ -321,9 +323,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#0a4fdaff',
+    borderColor: '#2563eb',
     marginTop: 4,
-    maxHeight: 2000,
+    maxHeight: 200,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -347,7 +349,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: '#2563eb',
     paddingHorizontal: 16,
     paddingVertical: 16,
     minHeight: 48,
@@ -360,7 +362,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: '#2563eb',
     paddingHorizontal: 16,
     paddingVertical: 16,
     fontSize: 16,
@@ -371,7 +373,7 @@ const styles = StyleSheet.create({
     minHeight: 120,
   },
   actions: {
-    padding: 20,
+    padding: 10,
     gap: 12,
     borderTopWidth: 1,
     borderTopColor: '#E5E7EB',
@@ -388,15 +390,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   cancelButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#2563eb1a',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: '#E87525',
     paddingVertical: 16,
     alignItems: 'center',
   },
   cancelText: {
-    color: '#6C757D',
+    color: '#1E1E1E',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -415,7 +417,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: '#2563eb',
     paddingHorizontal: 12,
     paddingVertical: 12,
     minHeight: 48,
@@ -427,7 +429,7 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: '#2563eb',
     borderRadius: 8,
     marginTop: 4,
     maxHeight: 200,
@@ -439,10 +441,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   numberScrollView: {
-    maxHeight: 200,
+    flex: 1,
   },
   placeholder: {
     fontSize: 16,
     color: '#6C757D',
+  },
+  lastSection: {
+    paddingBottom: 80,
   },
 });

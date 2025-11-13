@@ -1,14 +1,19 @@
 import { Colors } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+type RootStackParamList = {
+  index: undefined;
+  siteDetails: { site: any };
+};
 
 export default function SitesScreen() {
   const [activeTab, setActiveTab] = useState('carte');
   const [refreshing, setRefreshing] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const sitesData = [
     {
@@ -247,7 +252,10 @@ export default function SitesScreen() {
                     <Text style={styles.infoLabel}>Contact: {site.contact}</Text>
                     <Text style={styles.infoLabel}>Fonctionnalités: {site.features.join(', ')}</Text>
                   </View>
-                  <TouchableOpacity style={styles.detailsButton}>
+                  <TouchableOpacity 
+                    style={styles.detailsButton}
+                    onPress={() => navigation.navigate('siteDetails', { site })}
+                  >
                     <Text style={styles.detailsButtonText}>Voir les Détails</Text>
                   </TouchableOpacity>
                 </View>

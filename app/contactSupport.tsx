@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  index: undefined;
+};
 import { Colors } from '@/constants/theme';
 import { Linking } from 'react-native';
 
@@ -14,7 +18,7 @@ export default function ContactSupportScreen() {
   const [showHours, setShowHours] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showPriorityDropdown, setShowPriorityDropdown] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const categories = [
     'Demande Générale',

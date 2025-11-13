@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  index: undefined;
+  creerDemande: undefined;
+  sites: undefined;
+};
 import { Colors } from '@/constants/theme';
 
 export default function ContactsUrgenceScreen() {
   const [expandedProtocol, setExpandedProtocol] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const emergencyContacts = [
     {

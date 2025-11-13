@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, RefreshControl } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  index: undefined;
+};
 import { Colors } from '@/constants/theme';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -10,7 +14,7 @@ export default function ReportsScreen() {
   const [activeSiteFilter, setActiveSiteFilter] = useState('Tous les sites');
   const [searchText, setSearchText] = useState('');
   const [refreshing, setRefreshing] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const [selectedType, setSelectedType] = useState('Tous les types');
   const [selectedSite, setSelectedSite] = useState('Tous les sites');

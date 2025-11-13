@@ -113,6 +113,30 @@ export default function DrawerLayout() {
           headerShown: false,
         }}
       />
+      <Drawer.Screen
+        name="profile"
+        component={require('../profile').default}
+        options={{
+          title: 'Profil Utilisateur',
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="billing"
+        component={require('../billing').default}
+        options={{
+          title: 'Facturation',
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="siteDetails"
+        component={require('../siteDetails').default}
+        options={{
+          title: 'Détails du Site',
+          headerShown: false,
+        }}
+      />
 
       {/* Ajoutez ici d'autres écrans selon le menu */}
     </Drawer.Navigator>

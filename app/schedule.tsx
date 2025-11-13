@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, RefreshControl } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  index: undefined;
+  contactSupport: undefined;
+  creerDemande: undefined;
+  contactsUrgence: undefined;
+};
 
 export default function ScheduleScreen() {
   const [activeTab, setActiveTab] = useState('Aperçu');
@@ -15,7 +22,7 @@ export default function ScheduleScreen() {
   const statusOptions = ['Tous les Statuts', 'Programmé', 'En cours', 'Terminé', 'Annulé'];
   const siteOptions = ['Tous les Sites', 'Site Principal', 'Site Secondaire', 'Site Industriel'];
   const [refreshing, setRefreshing] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const kpiData = [
     { title: 'Total des\néquipes', value: '0', icon: 'people-outline', color: '#3B82F6' },
@@ -320,20 +327,22 @@ export default function ScheduleScreen() {
           <Text style={styles.helpTitle}>Besoin d'aide ?</Text>
           <View style={styles.helpActions}>
             <TouchableOpacity style={styles.helpCard}
-            onPress={() => navigation.navigate('contactSupport' as never)}>
+            onPress={() => navigation.navigate('contactSupport')}>
               <Ionicons name="headset" size={24} color="#3B82F6" />
               <Text style={styles.helpCardTitle}>Contacter le support</Text>
               <Text style={styles.helpCardDesc}>Questions sur les équipes</Text>              
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.helpCard}
-              onPress={() => navigation.navigate('creerDemande' as never)}
+              onPress={() => navigation.navigate('creerDemande')}
             >
               <Ionicons name="add-circle" size={24} color="#10B981" />
               <Text style={styles.helpCardTitle}>Demander une couverture</Text>
               <Text style={styles.helpCardDesc}>Ajouter sécurité</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.helpCard}>
+            <TouchableOpacity style={styles.helpCard}
+              onPress={() => navigation.navigate('contactsUrgence')}
+              >            
               <Ionicons name="call" size={24} color="#EF4444" />
               <Text style={styles.helpCardTitle}>Contacts d'Urgence</Text>
               <Text style={styles.helpCardDesc}>Alerte immédiate</Text>

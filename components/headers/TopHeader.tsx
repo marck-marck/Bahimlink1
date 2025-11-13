@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../constants/theme';
+import { useTheme } from '../../hooks/useTheme';
 import ProfileMenu from './ProfileMenu';
 
 export default function TopHeader({ onMenuPress }: { onMenuPress?: () => void }) {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const { colors } = useTheme();
   const [menuVisible, setMenuVisible] = useState(false);
 
   // Les infos utilisateur seront dynamiques plus tard
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#E9ECEF',
     backgroundColor: '#E9F0FF',

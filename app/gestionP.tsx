@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, RefreshControl, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  index: undefined;
+};
 import InviteStaffModal from '../components/InviteStaffModal';
 import AddStaffModal from '../components/AddStaffModal';
 
@@ -9,7 +13,7 @@ export default function GestionPersonnelScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [inviteModalVisible, setInviteModalVisible] = useState(false);
   const [addModalVisible, setAddModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const rolesData = [
     {
